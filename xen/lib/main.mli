@@ -15,6 +15,7 @@
  *)
 
 val run : unit Lwt.t -> unit
+val yield : unit -> unit Lwt.t
 val at_enter : (unit -> unit Lwt.t) -> unit
 val at_enter_iter : (unit -> unit) -> unit
 val at_exit_iter  : (unit -> unit) -> unit

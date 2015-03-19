@@ -28,6 +28,9 @@ let run t =
   let t = call_hooks enter_hooks <&> t in
   Lwt_unix.run t
 
+let yield () =
+    Lwt_main.yield ()
+
 let () = at_exit (fun () -> run (call_hooks exit_hooks))
 let at_exit f = ignore (Lwt_sequence.add_l f exit_hooks)
 let at_enter f = ignore (Lwt_sequence.add_l f enter_hooks)
