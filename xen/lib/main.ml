@@ -74,9 +74,12 @@ let run t =
             |None -> Time.Monotonic.(time () + of_seconds 86400.0) (* one day = 24 * 60 * 60 s *)
             |Some tm -> tm
           in
-          MProf.Trace.(note_hiatus Wait_for_work);
-          block_domain timeout;
-          MProf.Trace.note_resume ();
+          if (Lwt.paused_count () = 0) then
+          begin
+              MProf.Trace.(note_hiatus Wait_for_work);
+              block_domain timeout;
+              MProf.Trace.note_resume ()
+          end;
           aux ()
         end in
   aux ()
